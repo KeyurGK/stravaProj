@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+
 const Home = () => {
   const clientId = import.meta.env.VITE_API_CLIENT_ID;
-    const clientSecret = import.meta.env.VITE_API_CLIENT_SECRET;
-    const [authCode, setAuthCode] = useState(null);
-    const [accessToken, setAccessToken] = useState(null);
+  const clientSecret = import.meta.env.VITE_API_CLIENT_SECRET;
+  const [authCode, setAuthCode] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
 
   const redirectUri = "http://localhost:5173";
   const responseType = "code";
@@ -25,6 +26,7 @@ const Home = () => {
   };
 
   const getToken = async (code) => {
+    console.log(clientSecret, 'client secret');
     const tokenUrl = "https://www.strava.com/oauth/token";
     const response = await fetch(tokenUrl, {
       method: "POST",
@@ -42,6 +44,20 @@ const Home = () => {
     const data = await response.json();
     console.log("Access Token:", data.access_token);
     setAccessToken(data.access_token);
+    getAthletes(data.access_token); // Pass the token directly to getAthletes
+  };
+
+  const getAthletes = async (token) => {
+    const activitiesUrl = `https://www.strava.com/api/v3/athlete/activities?access_token=${token}`;
+    const response = await fetch(activitiesUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    console.log("Final get:", data);
   };
 
   return (
