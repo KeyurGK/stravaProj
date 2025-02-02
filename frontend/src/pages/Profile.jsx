@@ -103,7 +103,9 @@ const Profile = () => {
   const handleLogout = () => {
     Cookies.remove("authCode");
     Cookies.remove("accessToken");
-    navigate("/");
+    setAthlete(null);  // Clear athlete state
+    setActivities([]); // Clear activities state
+    navigate("/", { replace: true });
   };
 
   return (
