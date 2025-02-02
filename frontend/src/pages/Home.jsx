@@ -122,7 +122,7 @@ const Home = () => {
   const [authCode, setAuthCode] = useState(Cookies.get("authCode") || null);
   const [accessToken, setAccessToken] = useState(Cookies.get("accessToken") || null);
 
-  const redirectUri = "http://localhost:5173";
+  const redirectUri = "https://kri-link.vercel.app/";
   const responseType = "code";
   const scope = "activity:read_all";
 
