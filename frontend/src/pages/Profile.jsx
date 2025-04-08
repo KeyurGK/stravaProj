@@ -1,68 +1,4 @@
-// import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import Cookies from "js-cookie";
 
-// const Profile = () => {
-//   const navigate = useNavigate();
-//   const accessToken = Cookies.get("accessToken");
-//   const [profile, setProfile] = useState(null);
-
-//   useEffect(() => {
-//     if (!accessToken) {
-//       navigate("/");
-//     } else {
-//       fetchProfile();
-//     }
-//   }, [accessToken, navigate]);
-
-//   const fetchProfile = async () => {
-//     const response = await fetch("https://www.strava.com/api/v3/athlete", {
-//       headers: { Authorization: `Bearer ${accessToken}` },
-//     });
-//     const data = await response.json();
-//     setProfile(data);
-//   };
-
-//   const handleLogout = () => {
-//     Cookies.remove("authCode");
-//     Cookies.remove("accessToken");
-//     navigate("/");
-//   };
-
-//   return (
-//     <div className="flex flex-col items-center min-h-screen bg-gray-900 text-white p-6">
-//       <div className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-lg text-center">
-//         {profile ? (
-//           <>
-//             <img src={profile.profile} alt="Profile" className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-yellow-400" />
-//             <h1 className="text-3xl font-bold">{profile.firstname} {profile.lastname}</h1>
-//             <p className="text-gray-400">{profile.city}, {profile.country}</p>
-
-//             <div className="flex gap-4 mt-6">
-//               <button
-//                 onClick={() => navigate("/runs")}
-//                 className="px-6 py-3 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
-//               >
-//                 🏃 View Best Runs
-//               </button>
-
-//               <button
-//                 onClick={handleLogout}
-//                 className="px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
-//               >
-//                 🚪 Logout
-//               </button>
-//             </div>
-//           </>
-//         ) : (
-//           <p className="text-gray-400">Loading profile...</p>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Profile;
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -84,6 +20,7 @@ const Profile = () => {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const data = await response.json();
+      console.log(data,'athelete data')
       setAthlete(data);
     };
 
@@ -96,8 +33,17 @@ const Profile = () => {
       setActivities(uniqueSports);
     };
 
+    const fetchAtheletZone = async () => {
+      const response = await fetch("https://www.strava.com/api/v3/activities/14092988586?include_all_efforts=true", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      const data = await response.json();
+      console.log(data,'zones')
+    };
+
     fetchAthlete();
     fetchActivities();
+    fetchAtheletZone();
   }, [accessToken, navigate]);
 
   const handleLogout = () => {
@@ -111,15 +57,7 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white px-6 py-8">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-extrabold text-purple-400 animate-fadeInLeft">KriLink</h1>
-        <button
-          onClick={handleLogout}
-          className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md transition-all duration-300 animate-fadeInRight"
-        >
-          Logout 🚪
-        </button>
-      </div>
+      
 
       {/* Athlete Info */}
       {athlete && (

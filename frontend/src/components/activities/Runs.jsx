@@ -146,6 +146,8 @@ const Runs = () => {
       setLoading(false);
     };
 
+    //https://www.strava.com/api/v3/activities/14092988586?include_all_efforts=true
+    
     fetchAllRuns();
   }, [accessToken, navigate]);
 

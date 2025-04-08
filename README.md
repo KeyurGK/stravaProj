@@ -26,3 +26,4 @@ next post this request : https://www.strava.com/oauth/token?client_id=100329&cli
 step 4 :
 
 https://www.strava.com/api/v3/athlete/activities?access_token=5fe0cb60f7b0974bb7de3dcb38403b121fc51132
+https://www.strava.com/oauth/authorize?client_id=100329&redirect_uri=http://localhost:5173&response_type=code&scope=activity:read_all
