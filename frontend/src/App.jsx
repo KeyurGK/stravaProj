@@ -10,14 +10,15 @@ import MasterRuns from "./pages/MasterRuns";
 
 function App() {
   return (
-    // <Router>
-    //   <Routes>
-    //     <Route path="/" element={<Home />} />
-    //     <Route path="/profile" element={<Profile />} />
-    //     <Route path="activities/run" element={<Runs />} />
-    //   </Routes>
-    // </Router>
-    <MasterRuns/>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+        {/* <Route path="activities/run" element={<Runs />} /> */}
+        <Route path="activities/run" element={ <MasterRuns/>} />
+      </Routes>
+    </Router>
+   
   );
 }
 

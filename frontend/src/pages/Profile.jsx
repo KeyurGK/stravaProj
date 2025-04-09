@@ -24,26 +24,26 @@ const Profile = () => {
       setAthlete(data);
     };
 
-    const fetchActivities = async () => {
-      const response = await fetch("https://www.strava.com/api/v3/athlete/activities", {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      const data = await response.json();
-      const uniqueSports = [...new Set(data.map((activity) => activity.type))];
-      setActivities(uniqueSports);
-    };
+    // const fetchActivities = async () => {
+    //   const response = await fetch("https://www.strava.com/api/v3/athlete/activities", {
+    //     headers: { Authorization: `Bearer ${accessToken}` },
+    //   });
+    //   const data = await response.json();
+    //   const uniqueSports = [...new Set(data.map((activity) => activity.type))];
+    //   setActivities(uniqueSports);
+    // };
 
-    const fetchAtheletZone = async () => {
-      const response = await fetch("https://www.strava.com/api/v3/activities/14092988586?include_all_efforts=true", {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      const data = await response.json();
-      console.log(data,'zones')
-    };
+    // const fetchAtheletZone = async () => {
+    //   const response = await fetch("https://www.strava.com/api/v3/activities/14092988586?include_all_efforts=true", {
+    //     headers: { Authorization: `Bearer ${accessToken}` },
+    //   });
+    //   const data = await response.json();
+    //   console.log(data,'zones')
+    // };
 
     fetchAthlete();
-    fetchActivities();
-    fetchAtheletZone();
+    // fetchActivities();
+    // fetchAtheletZone();
   }, [accessToken, navigate]);
 
   const handleLogout = () => {
@@ -72,7 +72,7 @@ const Profile = () => {
       )}
 
       {/* Activities Section */}
-      <div className="mt-10">
+      {/* <div className="mt-10">
         <h2 className="text-2xl font-semibold text-purple-400 animate-fadeInUp">Your Activities</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
           {activities.length > 0 ? (
@@ -89,6 +89,10 @@ const Profile = () => {
             <p className="text-gray-400">No activities found.</p>
           )}
         </div>
+      </div> */}
+
+      <div>
+        <h2 onClick={navigate("/activities/run")}>Master runs</h2>
       </div>
     </div>
   );

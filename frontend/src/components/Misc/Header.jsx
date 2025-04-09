@@ -1,6 +1,6 @@
 const Header = () =>{
     return (
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center mb-8 min-w-screen">
         <h1 className="text-4xl font-extrabold text-purple-400 animate-fadeInLeft">KriLink </h1>
         <button
         //   onClick={handleLogout}
