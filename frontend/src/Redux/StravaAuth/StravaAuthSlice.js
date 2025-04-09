@@ -5,12 +5,12 @@ import Cookies from "js-cookie";
 const clientId = import.meta.env.VITE_API_CLIENT_ID;
 const clientSecret = import.meta.env.VITE_API_CLIENT_SECRET;
 const redirectUri = "http://localhost:5173"; // or your production URI
-
 const initialState = {
   accessToken: Cookies.get("accessToken") || null,
   authCode: Cookies.get("authCode") || null,
   loading: false,
   error: null,
+  isAuthenticated:false,
 };
 
 export const getStravaToken = createAsyncThunk(
@@ -53,6 +53,7 @@ const StravaAuthSlice = createSlice({
     logoutStrava: (state) => {
       state.authCode = null;
       state.accessToken = null;
+      state.isAuthenticated = false;
       Cookies.remove("authCode");
       Cookies.remove("accessToken");
     },
@@ -66,6 +67,7 @@ const StravaAuthSlice = createSlice({
       .addCase(getStravaToken.fulfilled, (state, action) => {
         state.loading = false;
         state.accessToken = action.payload;
+        state.isAuthenticated = true;
       })
       .addCase(getStravaToken.rejected, (state, action) => {
         state.loading = false;

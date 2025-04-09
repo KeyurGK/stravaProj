@@ -2,71 +2,37 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { getAthleteDetails } from "../Redux/Athlete/StravaAthleteSlice";
 
 const Profile = () => {
   const [athlete, setAthlete] = useState(null);
   const [activities, setActivities] = useState([]);
   const accessToken = Cookies.get("accessToken");
   const navigate = useNavigate();
+const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (!accessToken) {
-      navigate("/");
-      return;
-    }
 
-    const fetchAthlete = async () => {
-      const response = await fetch("https://www.strava.com/api/v3/athlete", {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      const data = await response.json();
-      console.log(data,'athelete data')
-      setAthlete(data);
-    };
 
-    // const fetchActivities = async () => {
-    //   const response = await fetch("https://www.strava.com/api/v3/athlete/activities", {
-    //     headers: { Authorization: `Bearer ${accessToken}` },
-    //   });
-    //   const data = await response.json();
-    //   const uniqueSports = [...new Set(data.map((activity) => activity.type))];
-    //   setActivities(uniqueSports);
-    // };
 
-    // const fetchAtheletZone = async () => {
-    //   const response = await fetch("https://www.strava.com/api/v3/activities/14092988586?include_all_efforts=true", {
-    //     headers: { Authorization: `Bearer ${accessToken}` },
-    //   });
-    //   const data = await response.json();
-    //   console.log(data,'zones')
-    // };
+  useEffect(()=>{
+    dispatch(getAthleteDetails());
+  },[])
 
-    fetchAthlete();
-    // fetchActivities();
-    // fetchAtheletZone();
-  }, [accessToken, navigate]);
-
-  const handleLogout = () => {
-    Cookies.remove("authCode");
-    Cookies.remove("accessToken");
-    setAthlete(null);  // Clear athlete state
-    setActivities([]); // Clear activities state
-    navigate("/", { replace: true });
-  };
-
+  const {athleteData} = useSelector((state)=>state.stravaAthlete);
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white px-6 py-8">
       {/* Header */}
       
 
       {/* Athlete Info */}
-      {athlete && (
+      {athleteData && (
         <div className="bg-gray-800 p-6 rounded-lg shadow-xl flex items-center gap-6 animate-fadeIn">
-          <img src={athlete.profile} alt="Athlete" className="w-20 h-20 rounded-full border-4 border-purple-500" />
+          <img src={athleteData.profile} alt="Athlete" className="w-20 h-20 rounded-full border-4 border-purple-500" />
           <div>
-            <h2 className="text-3xl font-bold">{athlete.firstname} {athlete.lastname}</h2>
-            <p className="text-gray-300">{athlete.city}, {athlete.country}</p>
-            <p className="text-sm text-gray-400">Total Activities: {athlete.summit ? "Pro Athlete 🌟" : "Athlete 🏅"}</p>
+            <h2 className="text-3xl font-bold">{athleteData.firstname} {athleteData.lastname}</h2>
+            <p className="text-gray-300">{athleteData.city}, {athleteData.state}</p>
+            <p className="text-sm text-gray-400">{athleteData.bio}</p>
           </div>
         </div>
       )}
@@ -92,7 +58,9 @@ const Profile = () => {
       </div> */}
 
       <div>
-        <h2 onClick={navigate("/activities/run")}>Master runs</h2>
+        <h2 onClick={()=>navigate("/master-runs")}>Master runs</h2> 
+        <h2 onClick={()=>navigate("/personal-best")}>Personal</h2>
+
       </div>
     </div>
   );
